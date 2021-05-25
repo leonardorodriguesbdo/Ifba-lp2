@@ -39,7 +39,7 @@ public class CriarPessoas {
         //manager.persist(p);
         
         p = manager.find(Pessoa.class, 2L);
-        p.setNome("Cinthia Batista");
+        //p.setNome("Cinthia Batista");
         manager.persist(p);
         //manager.merge(p);
         //manager.remove(p);   
