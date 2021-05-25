@@ -16,6 +16,7 @@ import util.JpaUtil;
 /**
  *
  * @author Leonardo
+ * Implemeta o CRUD da nossa aplicação
  */
 public class Pessoas implements Serializable{
     private EntityManager manager;
@@ -27,7 +28,7 @@ public class Pessoas implements Serializable{
     public void adicionar(Pessoa pessoa){
         EntityTransaction trx = manager.getTransaction();
         trx.begin();
-        manager.persist(pessoa);
+        manager.persist(pessoa); //incluir uma pessoa no banco de dados
         trx.commit();
     }
     

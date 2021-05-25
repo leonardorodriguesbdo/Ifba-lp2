@@ -1,7 +1,12 @@
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import model.Pessoa;
+import repository.Pessoas;
+import service.CadastroPessoas;
+import service.NegocioException;
 import util.JpaUtil;
 
 /*
@@ -25,6 +30,7 @@ public class CriarPessoas {
 
         //Criar um objeto do tipo pessoa que será persistido no banco
         Pessoa p = new Pessoa();
+        //p.setId(5L);
         //p.setNome("Teste exclusao");
         //p.setEmail("teste@ifba.edu.br");
         //p.setContato("7799313232");
@@ -32,14 +38,43 @@ public class CriarPessoas {
         //Semelhante ao INSERT (SQL) vai inserir um novo registro no banco
         //manager.persist(p);
         
-        p = manager.find(Pessoa.class, 3L);
-        //p.setNome("Cinthia Batista");
+        p = manager.find(Pessoa.class, 2L);
+        p.setNome("Cinthia Batista");
+        manager.persist(p);
         //manager.merge(p);
-        manager.remove(p);   
+        //manager.remove(p);   
 
 
         //Confirma a transação
         trx.commit();
+        
+        /*EntityManager manager = JpaUtil.getEntityManager();
+        
+        //Cria uma instancia do repositório
+        Pessoas pessoas = new Pessoas(manager);
+        
+        //Cria uma instancia de pessoa
+        Pessoa p ;//= new Pessoa();
+        //p.setNome("Fulano");
+        //p.setEmail("fulanalo@ifba.edu");
+        //p.setContato("99999999");
+        
+        //Cria uma instancia da regra de negócio
+        /*CadastroPessoas cad = new CadastroPessoas(pessoas);
+        try {
+            //Salva uma pessoa no banco de dados
+            //cad.salvar(p);
+            p = cad.pesquisarPorPessoa(4L);
+            //p.setId(5L);
+            p.setNome("puta merda");
+            
+            cad.salvar(p);
+            
+        } catch (NegocioException ex) {
+            Logger.getLogger(CriarPessoas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        */
+        
     }
     
 }
