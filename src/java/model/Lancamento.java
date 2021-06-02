@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -44,7 +45,7 @@ public class Lancamento implements Serializable{
         this.id = id;
     }
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
     public Pessoa getPessoa() {
         return pessoa;
     }
@@ -92,7 +93,7 @@ public class Lancamento implements Serializable{
     }
 
     @Temporal(TemporalType.DATE)
-    @Column(name = "data_pagamento", nullable = false)
+    @Column(name = "data_pagamento")
     public Date getDataPagamento() {
         return dataPagamento;
     }

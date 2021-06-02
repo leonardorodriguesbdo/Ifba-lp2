@@ -22,11 +22,11 @@ import util.JpaUtil;
 public class CriarPessoas {
     public static void main(String[] args){
         //Retorna um objeto EntityManager para dar acesso aos metodos CRUD do JPA
-        EntityManager manager = JpaUtil.getEntityManager();
+        /*EntityManager manager = JpaUtil.getEntityManager();
         //Cria uma transação
         EntityTransaction trx = manager.getTransaction();
         //Inicia a transação
-        trx.begin();
+        //trx.begin();
 
         //Criar um objeto do tipo pessoa que será persistido no banco
         Pessoa p = new Pessoa();
@@ -38,17 +38,18 @@ public class CriarPessoas {
         //Semelhante ao INSERT (SQL) vai inserir um novo registro no banco
         //manager.persist(p);
         
-        p = manager.find(Pessoa.class, 2L);
+        //p = manager.find(Pessoa.class, 2L);
         //p.setNome("Cinthia Batista");
-        manager.persist(p);
+        //manager.persist(p);
         //manager.merge(p);
         //manager.remove(p);   
 
 
         //Confirma a transação
-        trx.commit();
+        //trx.commit();
+        */
         
-        /*EntityManager manager = JpaUtil.getEntityManager();
+        EntityManager manager = JpaUtil.getEntityManager();
         
         //Cria uma instancia do repositório
         Pessoas pessoas = new Pessoas(manager);
@@ -60,20 +61,21 @@ public class CriarPessoas {
         //p.setContato("99999999");
         
         //Cria uma instancia da regra de negócio
-        /*CadastroPessoas cad = new CadastroPessoas(pessoas);
+        CadastroPessoas cad = new CadastroPessoas(pessoas);
         try {
             //Salva uma pessoa no banco de dados
             //cad.salvar(p);
             p = cad.pesquisarPorPessoa(4L);
             //p.setId(5L);
-            p.setNome("puta merda");
+            p.setNome("Joao Amaro");
             
             cad.salvar(p);
             
         } catch (NegocioException ex) {
             Logger.getLogger(CriarPessoas.class.getName()).log(Level.SEVERE, null, ex);
         }
-        */
+        
+        //testar a listagem de pessoas
         
     }
     
