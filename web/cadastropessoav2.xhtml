@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <title>Cadastro de pessoa</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <h1>Cadastro de Pessoas</h1>
+        <h:form id="frm">
+            <h:messages showDetail="true" showSummary="true"
+                        errorStyle="color: red" infoStyle="color: green"
+                        warnStyle="color: orange" fatalStyle="color: gray" />
+            
+               
+            <h:panelGrid columns="2">
+                <h:outputText value="Id:" />
+                <h:inputText value="#{pessoaBean.novaPessoa.id}" size="10" />
+                <h:outputText value="Nome:" />
+                <h:inputText value="#{pessoaBean.novaPessoa.nome}" size="20" />
+                
+                <h:outputText />
+                <h:commandButton value="Cadastrar" action="#{pessoaBean.salvar()}"/>
+                
+            </h:panelGrid>
+            
+            <h:dataTable value="#{pessoaBean.pessoas}" var="pessoa" 
+                    border="1" cellspacing="0" cellpadding="2">
+                <f:facet name="header">
+                    Relação de Pessoas
+                </f:facet>
+                
+                <h:column>
+                    <f:facet name="header">Id</f:facet>
+                    <h:outputText value="#{pessoa.id}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Nome</f:facet>
+                    <h:outputText value="#{pessoa.nome}"/>
+                </h:column>
+            </h:dataTable>
+        </h:form>
+    </h:body>
+</html>
