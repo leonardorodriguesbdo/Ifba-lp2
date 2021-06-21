@@ -27,11 +27,11 @@ and open the template in the editor.
                 <h:inputText value="#{pessoaBean.novaPessoa.nome}" size="20" />
                 
                 <h:outputText />
-                <h:commandButton value="Cadastrar" action="#{pessoaBean.salvar()}"/>
+                <h:commandButton value="Salvar" action="#{pessoaBean.salvar()}"/>
                 
             </h:panelGrid>
             
-            <h:dataTable value="#{pessoaBean.pessoas}" var="pessoa" 
+            <h:dataTable value="#{pessoaBean.pessoas}" var="p" 
                     border="1" cellspacing="0" cellpadding="2">
                 <f:facet name="header">
                     Relação de Pessoas
@@ -39,11 +39,11 @@ and open the template in the editor.
                 
                 <h:column>
                     <f:facet name="header">Id</f:facet>
-                    <h:outputText value="#{pessoa.id}"/>
+                    <h:outputText value="#{p.id}"/>
                 </h:column>
                 <h:column>
                     <f:facet name="header">Nome</f:facet>
-                    <h:outputText value="#{pessoa.nome}"/>
+                    <h:outputText value="#{p.nome}"/>
                 </h:column>
             </h:dataTable>
         </h:form>

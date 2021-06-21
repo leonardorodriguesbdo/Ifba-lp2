@@ -90,8 +90,7 @@ public class PessoaBean implements Serializable{
     public void excluir(){
         FacesContext context = FacesContext.getCurrentInstance();
         
-        try {
-    		
+        try {    		
             this.pessoas.remove(this.pessoaSelecionada);
             
             context.addMessage(null, new FacesMessage(

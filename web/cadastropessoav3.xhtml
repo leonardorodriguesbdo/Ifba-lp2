@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Cadastro de pessoa</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+               
+    </h:head>
+    <h:body>
+        
+        <h1>Cadastro de Pessoas</h1>
+        
+        <h:form id="frm">
+            <p:messages showDetail="true" closable="true">
+                
+            </p:messages>
+            
+            <p:growl id="growl" showDetail="true" />
+            
+                 
+            <p:panelGrid id="pn" columns="2" layout="flex"
+                 columnClasses="ui-grid-col-1,ui-grid-col-11">
+                <p:outputLabel value="Id:" />
+                <p:inputText value="#{pessoaBean.novaPessoa.id}" size="10" />
+
+                <p:outputLabel value="Nome:" />
+                <p:inputText value="#{pessoaBean.novaPessoa.nome}" size="50" />
+
+                <p:outputLabel/>
+                <p:commandButton value="Cadastrar" action="#{pessoaBean.salvar()}" 
+                                 icon="pi pi-save" iconPos="right"
+                                 process="@all" update="@form"/>
+
+            </p:panelGrid>
+            
+           
+            <p:divider/>
+            
+            <p:dataTable id="tb" value="#{pessoaBean.pessoas}" var="pessoa" 
+                        rows="10"
+                        paginator="true" paginatorPosition=""
+                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                     currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                     rowsPerPageTemplate="5,10,{ShowAll|'All'}">>
+                    
+                <p:column headerText="Id">
+                    <h:outputText value="#{pessoa.id}" />
+                </p:column>
+                <p:column headerText="Nome">
+                    <h:outputText value="#{pessoa.nome}" />
+                </p:column>
+            </p:dataTable>
+            
+        </h:form>
+            
+    </h:body>
+</html>
