@@ -18,15 +18,19 @@ import model.Pessoa;
 @ManagedBean
 @ViewScoped
 public class PessoaBean implements Serializable{
-    
+    //lista de pessoas para ser apresentada
     private List<Pessoa> pessoas;
+    //cria um objeto do tipo pessoa para ser "persistido"
     private Pessoa novaPessoa;
+    //Criando uma pessoa temporaria para guardar informações da exclusão
     private Pessoa pessoaSelecionada;
-
+    
+    
+    
+    //Construtor da classe carrega algumas pessoas na lista
     public PessoaBean() {
         this.pessoas = new ArrayList<>();
-        this.novaPessoa = new Pessoa();
-        this.pessoaSelecionada = null;
+        this.novaPessoa = new Pessoa(); //Prepara o objeto para receber informações
         
         Pessoa p = new Pessoa();
         p.setId(1L); 
@@ -41,21 +45,22 @@ public class PessoaBean implements Serializable{
         p3.setId(4L); p3.setNome("serena"); pessoas.add(p3);
     }
     
+    //Salva uma pessoa no banco de dados, neste caso especifico esta adicionando 
+    //na lista de pessoas ( private List<Pessoa> pessoas; )
     public void salvar(){
         FacesContext context = FacesContext.getCurrentInstance();
-        
-        if (pessoaSelecionada != null){
+        //corrigindo o metodo para suportar a alteração
+        if (this.pessoaSelecionada != null){
+            //salvando no BD ... e seta o valor para null para permitir uma nova gravação de pessoa
+            this.pessoaSelecionada = null;
+            //Faz a limpeza dos campos inputText da tela
             this.novaPessoa = new Pessoa();
-            pessoaSelecionada = null;
-            FacesMessage mensagem = new FacesMessage(
-                FacesMessage.SEVERITY_INFO, "Cadastro efetuado.",
-                "Pessoa cadastrada com sucesso.");
-            context.addMessage(null, mensagem);
-        }else{
-            
-        
-            if (!this.novaPessoa.getNome().isEmpty()){
+        }else{ 
+            //Se o ID da pessoa não estiver preenchido não adiciona o nome na lista
+            if (this.novaPessoa.getId() != null){
+                //adiciona na lista ou no futuro irá chamar o método que salva no banco de dados
                 this.pessoas.add(this.novaPessoa);
+                //instacia uma nova pessoa e limpa a tela.
                 this.novaPessoa = new Pessoa();
 
                 FacesMessage mensagem = new FacesMessage(
@@ -63,73 +68,60 @@ public class PessoaBean implements Serializable{
                     "Pessoa cadastrada com sucesso.");
                 context.addMessage(null, mensagem);
             }else{
+                this.novaPessoa = new Pessoa();
                 FacesMessage mensagem = new FacesMessage(
-                    FacesMessage.SEVERITY_ERROR, "Erro.",
-                    "O nome da pessoa deve ser preenchido.");
+                    FacesMessage.SEVERITY_INFO, "Cadastro efetuado.",
+                    "O campo ID não podem ficar em branco.");
                 context.addMessage(null, mensagem);
             }
         }
-        /*if (this.novaPessoa != null){
-            this.pessoas.add(this.novaPessoa);
-            this.novaPessoa = new Pessoa();
-            
-            FacesMessage mensagem = new FacesMessage(
-                FacesMessage.SEVERITY_INFO, "Cadastro efetuado.",
-                "Pessoa cadastrada com sucesso.");
-            context.addMessage(null, mensagem);
-        }else{
-            this.novaPessoa = new Pessoa();
-            FacesMessage mensagem = new FacesMessage(
-                FacesMessage.SEVERITY_INFO, "Cadastro efetuado.",
-                "Pessoa cadastrada com sucesso.");
-            context.addMessage(null, mensagem);
-        }*/
-        
     }
     
+    //Exclui um nome da lista, servirá no futuro para excluir do banco de dados
     public void excluir(){
         FacesContext context = FacesContext.getCurrentInstance();
         
-        try {    		
+        try{
+            //remove a pessoa da lista ( private List<Pessoa> pessoas; )
             this.pessoas.remove(this.pessoaSelecionada);
-            
-            context.addMessage(null, new FacesMessage(
-                "Pessoa excluído com sucesso!"));
-    	} catch (Exception e) {
+            context.addMessage(null, new FacesMessage("Pessoa excluída com sucesso!"));
+        }catch(Exception e){
             FacesMessage mensagem = new FacesMessage(e.getMessage());
             mensagem.setSeverity(FacesMessage.SEVERITY_ERROR);
-            context.addMessage(null, mensagem);
-    	}
+            context.addMessage(null, new FacesMessage("Erro na exclusão!"));
+        }
     }
     
+    //prepara os dados da pessoa para alteração
     public void alterar(){
-        if (this.novaPessoa == null)
-            this.novaPessoa = new Pessoa();
-        
         novaPessoa = pessoaSelecionada;
     }
-
+    
+    //retorna a lista de pessoas para preencher o componente DataTable
     public List<Pessoa> getPessoas() {
         return pessoas;
     }
 
-    public void setPessoas(List<Pessoa> pessoas) {
-        this.pessoas = pessoas;
-    }
-
+    //retorna as informações de uma nova pessoa
     public Pessoa getNovaPessoa() {
-        System.out.println("palavra set: " + novaPessoa.toString());
         return novaPessoa;
-    }
+    } 
 
+    //seta as informações de uma nova pessoa
+    public void setNovaPessoa(Pessoa novaPessoa) {
+        this.novaPessoa = novaPessoa;
+    }
+    
+    //retorna as informações de pessoa selecionada
     public Pessoa getPessoaSelecionada() {
-        System.out.println("palavra set: " + pessoaSelecionada.toString());
         return pessoaSelecionada;
     }
 
+    //seta as informações de pessoaSelecionada
     public void setPessoaSelecionada(Pessoa pessoaSelecionada) {
         this.pessoaSelecionada = pessoaSelecionada;
     }
+    
     
     
 }
