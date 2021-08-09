@@ -52,7 +52,7 @@ public class CriarPessoas {
         EntityManager manager = JpaUtil.getEntityManager();
         
         //Cria uma instancia do repositório
-        Pessoas pessoas = new Pessoas(manager);
+        Pessoas pessoas = new Pessoas();
         
         //Cria uma instancia de pessoa
         Pessoa p ;//= new Pessoa();
@@ -61,7 +61,7 @@ public class CriarPessoas {
         //p.setContato("99999999");
         
         //Cria uma instancia da regra de negócio
-        CadastroPessoas cad = new CadastroPessoas(pessoas);
+        CadastroPessoas cad = new CadastroPessoas();
         try {
             //Salva uma pessoa no banco de dados
             //cad.salvar(p);

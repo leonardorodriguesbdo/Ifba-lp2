@@ -21,8 +21,11 @@ import util.JpaUtil;
 public class Pessoas implements Serializable{
     private EntityManager manager;
     
-    public Pessoas(EntityManager manager){
-        this.manager = manager;
+    /* O contrutor do repositório inicializa o EntityManager pegando uma conexao
+    * do banco de dados na classe JpaUtil
+    */
+    public Pessoas(){
+        this.manager = JpaUtil.getEntityManager();
     }
     
     public void adicionar(Pessoa pessoa){
@@ -50,6 +53,9 @@ public class Pessoas implements Serializable{
         return manager.find(Pessoa.class, id);
     }
     
+    /* Executa uma consulta na tabela pessoas, no banco de dados, e retorna
+    * em uma lista de objetos Pessoas
+    */ 
     public List<Pessoa> todos(){
         TypedQuery<Pessoa> query = manager.createQuery(
             "from Pessoa", Pessoa.class);

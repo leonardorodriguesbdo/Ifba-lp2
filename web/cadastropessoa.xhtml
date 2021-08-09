@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition template="/WEB-INF/template/Layout.xhtml"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    
+    <f:metadata>
+        <!-- Ao chamar o método prepararCadastro ele inicializa a criação de uma nova pessoa
+             e carrega no datatable e lista de pessoas cadastradas no banco de dados -->
+        <f:viewAction action="#{cadastroPessoaBean.prepararCadastro()}" />
+    </f:metadata>
+    
+    <ui:define name="titulo">Cadastro de Pessoa</ui:define>
+
+    <ui:define name="corpo">
+        <h1>Cadastro de Pessoas</h1>
+        
+        <h:form id="frm">
+            <p:messages showDetail="true" closable="true">
+                
+            </p:messages>
+            
+            <p:growl id="growl" showDetail="true" />
+            
+                 
+            <p:panelGrid id="pn" columns="2" layout="flex"
+                 columnClasses="ui-grid-col-1,ui-grid-col-11">
+                <p:outputLabel value="Id:" />
+                <p:inputText value="#{cadastroPessoaBean.pessoa.id}" size="10" />
+
+                <p:outputLabel value="Nome:" />
+                <p:inputText value="#{cadastroPessoaBean.pessoa.nome}" size="20" />
+                
+                <p:outputLabel/>
+                <p:commandButton value="Cadastrar" action="#{cadastroPessoaBean.salvar()}" 
+                                 icon="pi pi-save" iconPos="right"
+                                 process="@all" update="@form"/>
+
+            </p:panelGrid>
+            
+           
+            <p:divider/>
+            
+            <p:dataTable id="tb" value="#{cadastroPessoaBean.pessoas}" var="pessoa" 
+                        rows="10"
+                        paginator="true" paginatorPosition=""
+                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                     currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                     rowsPerPageTemplate="5,10,{ShowAll|'All'}">>
+                    
+                <p:column headerText="Id">
+                    <h:outputText value="#{pessoa.id}" />
+                </p:column>
+                <p:column headerText="Nome">
+                    <h:outputText value="#{pessoa.nome}" />
+                </p:column>
+                <p:column headerText="Ações">
+                    <p:commandButton action="#{pessoaBean.alterar()}" icon="ui-icon-pencil"
+                                     update="@form">
+                        <!-- esta ação é executanda antes do metodo alterar -->
+                        <f:setPropertyActionListener value="#{pessoa}" 
+                                                     target="#{pessoaBean.pessoaSelecionada}"/>
+                                        
+                    </p:commandButton>
+                    
+                    <p:commandButton action="#{pessoaBean.excluir()}" icon="ui-icon-trash"
+                                     update="@form" process="@form">
+                        <!-- esta ação é executanda antes do método excluir -->
+                        <f:setPropertyActionListener value="#{pessoa}" 
+                                                     target="#{pessoaBean.pessoaSelecionada}"/>
+                        <!-- Chama a janela de confirmação da exclusão -->
+                        <p:confirm header="Confirmação"
+                                    message="Deseja realmente excluir #{pessoa.nome}?" 
+                                    icon="ui-icon-alert"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+            
+            <!-- dependendo do botão clicado a ação é executanda -->
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no ui-button-flat"
+                                 icon="ui-icon-check"/>
+                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" 
+                                 icon="ui-icon-close"/>
+            </p:confirmDialog>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

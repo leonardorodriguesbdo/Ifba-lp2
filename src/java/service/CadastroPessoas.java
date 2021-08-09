@@ -16,8 +16,9 @@ import repository.Pessoas;
 public class CadastroPessoas {
     public Pessoas pessoas;
 
-    public CadastroPessoas(Pessoas pessoas){
-        this.pessoas = pessoas;
+    public CadastroPessoas(){
+        //o construtor da classe inicializa o repositório de pessoas
+        this.pessoas = new Pessoas();
     }   
     
     public void salvar(Pessoa pessoa) throws NegocioException{
@@ -35,6 +36,9 @@ public class CadastroPessoas {
         this.pessoas.remover(p);
     }
     
+    /* Este metódo chama o método exibirTodos do repositório e retorna a listagem
+    *  das pessoas cadastradas no banco de dados
+    */
     public List<Pessoa> exibirTodos(){
         return this.pessoas.todos();
     }

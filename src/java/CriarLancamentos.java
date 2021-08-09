@@ -50,7 +50,7 @@ public class CriarLancamentos {
         fornedor.setEmail("coelba@mail.com");
         
         //Cria uma instancia do cadastro de pessoas
-        CadastroPessoas cadPessoa = new CadastroPessoas(new Pessoas(manager));
+        CadastroPessoas cadPessoa = new CadastroPessoas();
         //Cria uma instancia do cadastro de lancamentos
         CadastroLancamentos cadLanc = new CadastroLancamentos(new Lancamentos(manager));
         
