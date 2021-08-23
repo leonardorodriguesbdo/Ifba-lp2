@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition template="/WEB-INF/template/Layout.xhtml"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    
+    <f:metadata>
+        <f:viewAction action="#{consultaLancamentosBean.consultar()}" />
+    </f:metadata>
+    
+    <ui:define name="titulo">Consulta de Lançamentos</ui:define>
+
+    <ui:define name="corpo">
+        <h1>Consulta de Lançamentos</h1>
+        <h:form id="frm">
+            <p:messages showDetail="true" closable="true" />
+            <p:growl id="growl" showDetail="true" />
+            
+            <p:toolbar>
+                <p:toolbarGroup>
+                    <p:button icon="ui-icon-plusthick" value="Novo" title="Novo"
+                              outcome="cadastrolancamento"  />
+                </p:toolbarGroup>
+            </p:toolbar>
+            
+            <p:dataTable value="#{consultaLancamentosBean.lancamentos}" var="lancamento"
+                         rows="10" paginator="true"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                     currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} registros"
+                     rowsPerPageTemplate="5,10,{ShowAll|'All'}">
+                <p:column headerText="Pessoa" sortBy="#{lancamento.pessoa.nome}">
+                    <h:outputText value="#{lancamento.pessoa.nome}" />
+                </p:column>
+                
+                <p:column headerText="Descrição">
+                    <h:outputText value="#{lancamento.descricao}" />
+                </p:column>
+                
+                <p:column headerText="Tipo">
+                    <h:outputText value="#{lancamento.tipo}" />
+                </p:column>
+                
+                <p:column headerText="Valor" style="text-align: right" >
+                    <h:outputText value="#{lancamento.valor}" >
+                        <f:convertNumber type="currency" locale="pt_BR" />
+                    </h:outputText>
+                </p:column>
+                
+                <p:column headerText="Vencimento" style="text-align: center"
+                          sortBy="#{lancamento.dataVencimento}">
+                    <h:outputText value="#{lancamento.dataVencimento}" >
+                        <f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
+                    </h:outputText>
+                </p:column>
+                
+                <p:column headerText="Pagamento" style="text-align: center"
+                          sortBy="#{lancamento.dataPagamento}">
+                    <h:outputText value="#{lancamento.dataPagamento}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
+                    </h:outputText>
+                </p:column>
+                
+                <p:column headerText="Ações">
+                    <p:button icon="ui-icon-pencil" title="Alterar"
+                              outcome="cadastrolancamento">
+                        <f:param name="id" value="#{lancamento.id}" />                 
+                    </p:button>
+                    
+                    <p:commandButton action="#{consultaLancamentosBean.excluir()}" icon="ui-icon-trash"
+                                     update="@form" process="@form" title="Excluir">
+                        <!-- esta ação é executanda antes do método excluir -->
+                        <f:setPropertyActionListener value="#{lancamento}" 
+                                                     target="#{consultaLancamentosBean.lancamentoSelecionado}"/>
+                        <!-- Chama a janela de confirmação da exclusão -->
+                        <p:confirm header="Confirmação"
+                                   message="Deseja realmente excluir #{lancamento.pessoa.nome}?" 
+                                    icon="ui-icon-alert"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+            
+            <!-- dependendo do botão clicado a ação é executanda -->
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no ui-button-flat"
+                                 icon="ui-icon-close"/>
+                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" 
+                                 icon="ui-icon-check"/>
+            </p:confirmDialog>
+        </h:form>
+    </ui:define>    
+</ui:composition>

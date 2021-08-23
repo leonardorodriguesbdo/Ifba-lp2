@@ -16,6 +16,7 @@ and open the template in the editor.
         <!-- Ao chamar o método prepararCadastro ele inicializa a criação de uma nova pessoa
              e carrega no datatable e lista de pessoas cadastradas no banco de dados -->
         <f:viewAction action="#{cadastroPessoaBean.prepararCadastro()}" />
+        <f:viewParam name="id" value="#{cadastroPessoaBean.pessoa}" />
     </f:metadata>
     
     <ui:define name="titulo">Cadastro de Pessoa</ui:define>
@@ -33,11 +34,16 @@ and open the template in the editor.
                  
             <p:panelGrid id="pn" columns="2" layout="flex"
                  columnClasses="ui-grid-col-1,ui-grid-col-11">
-                <p:outputLabel value="Id:" />
-                <p:inputText value="#{cadastroPessoaBean.pessoa.id}" size="10" />
-
                 <p:outputLabel value="Nome:" />
-                <p:inputText value="#{cadastroPessoaBean.pessoa.nome}" size="20" />
+                <p:inputText value="#{cadastroPessoaBean.pessoa.nome}" size="80" 
+                             required="true" requiredMessage="O campo NOME não pode ficar em branco"/>
+                
+                <p:outputLabel value="Contato:"/>
+                <p:inputText value="#{cadastroPessoaBean.pessoa.contato}" size="20" 
+                             required="true" requiredMessage="O campo CONTATO não pode ficar em branco"/>
+                
+                <p:outputLabel value="E-mail;" />
+                <p:inputText value="#{cadastroPessoaBean.pessoa.email}" size="50" />
                 
                 <p:outputLabel/>
                 <p:commandButton value="Cadastrar" action="#{cadastroPessoaBean.salvar()}" 
@@ -54,7 +60,7 @@ and open the template in the editor.
                         paginator="true" paginatorPosition=""
                      paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                      currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
-                     rowsPerPageTemplate="5,10,{ShowAll|'All'}">>
+                     rowsPerPageTemplate="5,10,{ShowAll|'All'}">
                     
                 <p:column headerText="Id">
                     <h:outputText value="#{pessoa.id}" />
@@ -62,20 +68,24 @@ and open the template in the editor.
                 <p:column headerText="Nome">
                     <h:outputText value="#{pessoa.nome}" />
                 </p:column>
+                <p:column headerText="Contato" >
+                    <h:outputText value="#{pessoa.contato}" />
+                </p:column>
+                <p:column headerText="E-mail" >
+                    <h:outputText value="#{pessoa.email}" />
+                </p:column>
+                
                 <p:column headerText="Ações">
-                    <p:commandButton action="#{pessoaBean.alterar()}" icon="ui-icon-pencil"
-                                     update="@form">
-                        <!-- esta ação é executanda antes do metodo alterar -->
-                        <f:setPropertyActionListener value="#{pessoa}" 
-                                                     target="#{pessoaBean.pessoaSelecionada}"/>
-                                        
-                    </p:commandButton>
+                    <p:button icon="ui-icon-pencil" title="Alterar"
+                              outcome="/cadastropessoa">
+                        <f:param name="id" value="#{pessoa.id}" />                 
+                    </p:button>
                     
-                    <p:commandButton action="#{pessoaBean.excluir()}" icon="ui-icon-trash"
-                                     update="@form" process="@form">
+                    <p:commandButton action="#{cadastroPessoaBean.excluir()}" icon="ui-icon-trash"
+                                     update="@form" process="@form" title="Excluir">
                         <!-- esta ação é executanda antes do método excluir -->
                         <f:setPropertyActionListener value="#{pessoa}" 
-                                                     target="#{pessoaBean.pessoaSelecionada}"/>
+                                                     target="#{cadastroPessoaBean.pessoaSelecionada}"/>
                         <!-- Chama a janela de confirmação da exclusão -->
                         <p:confirm header="Confirmação"
                                     message="Deseja realmente excluir #{pessoa.nome}?" 
@@ -87,9 +97,9 @@ and open the template in the editor.
             <!-- dependendo do botão clicado a ação é executanda -->
             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                 <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no ui-button-flat"
-                                 icon="ui-icon-check"/>
-                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" 
                                  icon="ui-icon-close"/>
+                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" 
+                                 icon="ui-icon-check"/>
             </p:confirmDialog>
         </h:form>
     </ui:define>

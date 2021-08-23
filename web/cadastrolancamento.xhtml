@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition template="/WEB-INF/template/Layout.xhtml"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    
+    <f:metadata>
+        <!-- Ao chamar o método prepararCadastro ele inicializa a criação de um novo lancamento -->
+        <f:viewAction action="#{cadastroLancamentoBean.prepararCadastro()}" />
+        <f:viewParam name="id" value="#{cadastroLancamentoBean.lancamento}" />
+    </f:metadata>
+    
+    <ui:define name="titulo">Cadastro de Lançamento</ui:define>
+
+    <ui:define name="corpo">
+        <h1>Cadastro de Lancamentos</h1>
+        
+        <h:form id="frm">
+            <p:messages showDetail="true" closable="true" />                
+                   
+            <p:growl id="growl" showDetail="true" />
+                 
+            <p:panelGrid id="pn" columns="2" layout="flex"
+                 columnClasses="ui-grid-col-2,ui-grid-col-10">
+                
+                <p:outputLabel value="Tipo" />
+                <p:selectOneButton value="#{cadastroLancamentoBean.lancamento.tipo}">
+                    <f:selectItem itemValue="DESPESA" itemLabel="Despesa" />
+                    <f:selectItem itemValue="RECEITA" itemLabel="Receita" />
+                </p:selectOneButton>
+                
+                <p:outputLabel value="Pessoa" />
+                <p:selectOneMenu value="#{cadastroLancamentoBean.lancamento.pessoa}">
+                    <f:selectItem itemLabel="Selecione" noSelectionOption="true"/>
+                    <f:selectItems value="#{cadastroLancamentoBean.todasPessoas}" 
+                                   var="pessoa" itemValue="#{pessoa}"
+                                   itemLabel="#{pessoa.nome}"/>
+                </p:selectOneMenu>
+                
+                <p:outputLabel value="Descrição" />
+                <p:inputText value="#{cadastroLancamentoBean.lancamento.descricao}" size="60"/>
+                
+                <p:outputLabel value="Valor" />
+                <p:inputText value="#{cadastroLancamentoBean.lancamento.valor}">
+                    <f:convertNumber locale="pt_BR" maxFractionDigits="2"
+                                     minFractionDigits="2" />
+                </p:inputText>
+                
+                <p:outputLabel value="Data de Vencimento" />
+                <p:calendar pattern="dd/MM/yyyy" 
+                            value="#{cadastroLancamentoBean.lancamento.dataVencimento}" />
+                
+                <p:outputLabel value="Data de Pagamento" />
+                <p:calendar pattern="dd/MM/yyyy" 
+                            value="#{cadastroLancamentoBean.lancamento.dataPagamento}" />
+                
+                <p:outputLabel />
+                <p:commandButton value="Cadastrar" action="#{cadastroLancamentoBean.salvar()}" 
+                                 icon="pi pi-save" iconPos="right"
+                                 process="@all" update="@form"/>
+                
+            </p:panelGrid>
+        </h:form>
+    </ui:define>
+</ui:composition>

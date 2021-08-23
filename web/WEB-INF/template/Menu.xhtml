@@ -1,0 +1,25 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html">
+	
+	<nav class="aw-menu">
+            <ul>
+                <li>
+                        <h:link outcome="/index"><i class="fa  fa-fw  fa-home"></i>Dashboard</h:link>
+                </li>
+                <li > <!-- outcome="/ConsultaChaves" -->
+                        <h:link outcome="/cadastropessoa"><i class="fa  fa-fw  fa-user"></i>Pessoas</h:link>
+                </li>
+                <li>
+                    <h:link outcome="/consultalancamentos"><i class="fa  fa-fw  fa-file-text"></i>Lancamentos</h:link>
+                </li>
+                <li>
+                        <h:link ><i class="fa  fa-fw  fa-key"></i>Menu 3</h:link>
+                </li>
+                <li class="is-selected">
+                        <h:link><i class="fa  fa-fw  fa-cog"></i>Controle</h:link>
+                </li>
+            </ul>
+	</nav>
+	
+</ui:composition>
