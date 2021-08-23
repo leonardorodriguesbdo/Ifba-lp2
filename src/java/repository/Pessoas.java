@@ -28,6 +28,7 @@ public class Pessoas implements Serializable{
         this.manager = JpaUtil.getEntityManager();
     }
     
+    /*
     public void adicionar(Pessoa pessoa){
         EntityTransaction trx = manager.getTransaction();
         trx.begin();
@@ -39,6 +40,12 @@ public class Pessoas implements Serializable{
         EntityTransaction trx = manager.getTransaction();
         trx.begin();
         manager.merge(pessoa);
+        trx.commit();
+    } */
+    public void guardar(Pessoa pessoa){
+        EntityTransaction trx = manager.getTransaction();
+        trx.begin();
+        manager.merge(pessoa); //incluir uma pessoa no banco de dados
         trx.commit();
     }
     
@@ -56,6 +63,12 @@ public class Pessoas implements Serializable{
     /* Executa uma consulta na tabela pessoas, no banco de dados, e retorna
     * em uma lista de objetos Pessoas
     */ 
+    public Pessoa pesquisarPorNome(String nome){
+        TypedQuery<Pessoa> query = manager.createQuery(
+            "from Pessoa where nome = " + nome, Pessoa.class);
+        return query.getSingleResult();
+    }
+    
     public List<Pessoa> todos(){
         TypedQuery<Pessoa> query = manager.createQuery(
             "from Pessoa", Pessoa.class);

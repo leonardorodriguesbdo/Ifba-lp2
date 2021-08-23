@@ -19,8 +19,8 @@ public class CadastroLancamentos implements Serializable{
     private Lancamentos lancamentos;
     
     //carregar a instância do repositório de lancamento, para ter acesso ao CRUD 
-    public CadastroLancamentos(Lancamentos lancamentos){
-        this.lancamentos = lancamentos;
+    public CadastroLancamentos(){
+        this.lancamentos = new Lancamentos();
     }
     
     //Persiste o objeto lançamento na tabela do banco de dados
@@ -30,7 +30,7 @@ public class CadastroLancamentos implements Serializable{
                 && lanc.getDataPagamento().after(new Date())){
             throw new NegocioException("A data de pagamento não pode ser futura.");
         }
-        this.lancamentos.adicionar(lanc);
+        this.lancamentos.guardar(lanc);
     }
     
     //Exclui um lancamento na tabela Lancamento do BD

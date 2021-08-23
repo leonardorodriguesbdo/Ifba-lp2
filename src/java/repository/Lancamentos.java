@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 import model.Lancamento;
+import util.JpaUtil;
 
 /**
  *
@@ -18,13 +19,13 @@ import model.Lancamento;
 public class Lancamentos {
     private EntityManager manager;
     
-    public Lancamentos(EntityManager manager){
+    public Lancamentos(){
         //insira o código aqui
-	this.manager = manager;
+	this.manager = JpaUtil.getEntityManager();
     }
     
     //insira o código para realizar as operações CRUD de lançamento aqui
-    public void adicionar(Lancamento lanca){
+    /*public void adicionar(Lancamento lanca){
         EntityTransaction trx = manager.getTransaction();
         trx.begin();
         manager.persist(lanca);
@@ -33,6 +34,14 @@ public class Lancamentos {
 
     //atualizar um registro
     public void atualizar(Lancamento lanca){
+        EntityTransaction trx = manager.getTransaction();
+        trx.begin();
+        manager.merge(lanca);
+        trx.commit();
+    }*/
+    
+    //Este método grava um novo lancamento ou atualiza um lancamento existente
+    public void guardar(Lancamento lanca){
         EntityTransaction trx = manager.getTransaction();
         trx.begin();
         manager.merge(lanca);

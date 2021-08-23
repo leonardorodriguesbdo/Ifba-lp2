@@ -25,7 +25,7 @@ public class CadastroPessoas {
         if(pessoa.getNome() == null){
             throw new NegocioException("O nome não pode ficar em branca");
         }        
-        this.pessoas.adicionar(pessoa);
+        this.pessoas.guardar(pessoa);
     }
     
     public void excluir(Pessoa p) throws NegocioException{

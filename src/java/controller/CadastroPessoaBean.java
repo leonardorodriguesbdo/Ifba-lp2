@@ -6,10 +6,13 @@
 package controller;
 
 import java.util.List;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import model.Pessoa;
 import service.CadastroPessoas;
+import service.NegocioException;
 
 /**
  * @author Leonardo
@@ -52,6 +55,37 @@ public class CadastroPessoaBean {
     */
     public void consultar(){
         pessoas = cadastro.exibirTodos();
+    }
+    
+    public void salvar(){
+        FacesContext context = FacesContext.getCurrentInstance();
+        try{ 
+            cadastro.salvar(pessoa);
+            pessoa = new Pessoa();
+            consultar();
+            FacesMessage mensagem = new FacesMessage(
+                    FacesMessage.SEVERITY_INFO, "Cadastro efetuado.",
+                    "Pessoa cadastrada com sucesso.");
+                context.addMessage(null, mensagem);
+        }catch(NegocioException e){
+            FacesMessage mensagem = new FacesMessage(e.getMessage());
+            mensagem.setSeverity(FacesMessage.SEVERITY_ERROR);
+            context.addMessage(null, mensagem);
+        }
+    }
+    
+    public void excluir(){
+        FacesContext context = FacesContext.getCurrentInstance();
+        try{
+            //remove a pessoa do banco de dados
+            cadastro.excluir(pessoaSelecionada);
+            consultar();
+            context.addMessage(null, new FacesMessage("Pessoa excluída com sucesso!"));
+        }catch(NegocioException e){
+            FacesMessage mensagem = new FacesMessage(e.getMessage());
+            mensagem.setSeverity(FacesMessage.SEVERITY_ERROR);
+            context.addMessage(null, new FacesMessage("Erro na exclusão!"));
+        }
     }
 
     /* metodos get e set que fazem a interação entre o ManagedBean e a página xhtml */

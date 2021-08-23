@@ -52,7 +52,7 @@ public class CriarLancamentos {
         //Cria uma instancia do cadastro de pessoas
         CadastroPessoas cadPessoa = new CadastroPessoas();
         //Cria uma instancia do cadastro de lancamentos
-        CadastroLancamentos cadLanc = new CadastroLancamentos(new Lancamentos(manager));
+        CadastroLancamentos cadLanc = new CadastroLancamentos();
         
         //Criando um lancamento para persistir
         Lancamento lanc1 = new Lancamento();
